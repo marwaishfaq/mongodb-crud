@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>e-commerce store</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <h1>Add a Product</h1>
+    <a href="./index.html">Home</a> 
+    <a href="./products.html">All Products</a>
+    <form onsubmit="createProduct(); return false ">
+       
+        <label for="productName">product Name</label>
+        <input type="text" id="productName"> <br>
+
+        <br>
+        <label for="productPrice">product Price</label>
+        <input type="text" id="productPrice"><br>
+
+        <br>
+        <label for="currencyCode">currency Code</label>
+        <input type="text" id="currencyCode"><br>
+
+        <br>
+
+        <label for="numberofSale">number of Sale</label>
+        <input type="text" id="numberofSale"><br>
+
+        <br>
+
+        <label for="productRating">product Rating</label>
+        <input type="text" id="productRating"><br>
+        <br>
+        <label for="isfreeShipping">free Shipping</label>
+        <select name="isfreeShipping" id="isfreeShipping">
+            <option value="true">yes</option>
+            <option value="false">No</option>
+        </select>
+        <br><br>
+
+        <label for="shopName">shope Name</label>
+        <input type="text" id="shopName"><br><br>
+        <input type="submit" value="Add in database">
+    </form>
+
+<p id="message"></p>
+
+
+
+
+
+    <script>
+       let baseUrl;
+       if(window.location.href.indexOf("https")==-1){
+        baseUrl="http://localhost:7060";
+
+       }
+
+
+       function createProduct(){
+        let productName=document.querySelector("#productName").value;
+        let productPrice=document.querySelector("#productPrice").value;
+        let currencyCode=document.querySelector("#currencyCode").value;
+        let  productRating=document.querySelector("#productRating").value;
+        let isfreeShipping=document.querySelector("#isfreeShipping").value;
+        let shopName=document.querySelector("#shopName").value;
+        let numberofSale=document.querySelector("#numberofSale").value;
+
+        axios.post(`${baseUrl}/product`,{
+            productName ,
+            productPrice,
+            currencyCode,
+            productRating,
+            isfreeShipping,
+            shopName,
+            numberofSale,
+        }
+    )
+        .then(function(response){
+            console.log(response.data)
+            document.querySelector("#message").innerHTML=response.data.message;
+        })
+        .catch(function(error){
+            console.log(error.response.data)
+            document.querySelector("#message").innerHTML=error.response.data.message;
+        });
+       }
+    </script>
+</body>
+</html>
